@@ -1,0 +1,46 @@
+Step 1: Set Up Your Project
+
+    - Create a new Java project in your chosen IDE.
+    - Set up a directory structure for your project, organizing files into folders such as src (for source code), data (for data files like CSV), and any other necessary folders.
+
+Step 2: Implement Basic Functionality
+
+    - Implement a loop to display the home screen and handle user input:
+        - Display options: Add Deposit, Make Payment, Ledger, Exit.
+        - Use a loop to continuously display the home screen until the user chooses to exit.
+        - Handle user input to execute the selected option.
+    - Implement the "Add Deposit" functionality:
+        - Prompt the user for deposit information (date, time, description, vendor, amount).
+        - Validate user input for each field (format, presence, etc.).
+        - Write deposit information to the CSV file (append a new line with the entered data).
+    - Implement the "Make Payment (Debit)" functionality:
+        - Prompt the user for debit information (date, time, description, vendor, amount).
+        - Validate user input for each field.
+        - Write debit information to the CSV file.
+    - Implement the "Ledger" functionality:
+        - Read transaction data from the CSV file.
+        - Display transactions on the ledger screen.
+        - Allow users to choose different display options (all entries, deposits, payments).
+        - Ensure that entries are displayed with the newest entries first.
+
+Step 3: Add Additional Features
+    - Implement the "Reports" functionality:
+        - Create a new screen for reports.
+        - Implement predefined report options (Month to Date, Year to Date, etc.).
+        - Implement custom search functionality (start date, end date, description, vendor, amount).
+    - Add error handling and input validation:
+        - Check for errors and handle them gracefully to prevent crashes.
+        - Validate user input to ensure data integrity.
+    - Test the application:
+        - Write test cases to cover different scenarios.
+        - Test each feature and functionality thoroughly.
+        - Fix any bugs or issues that arise during testing.
+
+Step 4: Refactor and Improve
+    - Refactor your code:
+        - Simplify complex code.
+        - Break down large methods into smaller, more manageable ones.
+        - Ensure code follows best practices and conventions.
+    - Enhance features or add new ones based on user feedback or your own ideas.
+    - Ensure code documentation is up to date and understandable.
+    - Test the application again after refactoring to ensure everything still works as expected.
