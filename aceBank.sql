@@ -6,7 +6,7 @@ USE aceBank;
 
 CREATE TABLE users (
     user_id INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(25) NOT NULL,
     PRIMARY KEY (user_id)
 );

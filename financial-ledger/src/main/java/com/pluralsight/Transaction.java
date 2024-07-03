@@ -28,6 +28,7 @@ public class Transaction {
         this.amount = amount;
     }
 
+    // make a transaction
     public Transaction(String transactionId, String userId, String date, String time, String description, String vendor, double amount) {
         this.transactionId = transactionId;
         this.userId = userId;

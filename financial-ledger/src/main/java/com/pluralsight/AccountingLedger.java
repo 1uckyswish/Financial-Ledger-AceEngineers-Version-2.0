@@ -33,31 +33,6 @@ public class AccountingLedger {
     // ~~~~~~~~~~~~~~~~~~ Authored by Zamir and Tina ~~~~~~~~~~~~~~~~~~
     public static void main(String[] args) throws IOException {
 
-//        String sql = "SELECT * FROM users";
-//
-//
-//        try{
-//            try (Connection connection = basicDataSource.getConnection();
-//                PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-//                // no need to set string
-//                ResultSet resultSet = preparedStatement.executeQuery();
-//
-//                while(resultSet.next()){
-//                    int userId = resultSet.getInt("user_id");
-//                    String username = resultSet.getString("username");
-//                    String password = resultSet.getString("password");
-//                    System.out.println(userId);
-//                    System.out.println(username);
-//                    System.out.println(password);
-//                }
-//            }
-//
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//            System.out.println("ERROR");
-//        }
-
-
 
         // Create a scanner object to handle user input throughout the application
         Scanner scanner = new Scanner(System.in);
@@ -65,7 +40,7 @@ public class AccountingLedger {
         // one
         // After reading file it appends a new object of each transaction to the
         // ArrayList
-        transactionHistory = transactionDao.getAllTransactions(2);
+        readAndAddToTransactionHistory();
         // Call the method that starts the whole application. It continues running until
         // user says otherwise
         displayHomeScreen(scanner);

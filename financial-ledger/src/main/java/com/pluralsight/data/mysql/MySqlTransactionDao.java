@@ -1,6 +1,7 @@
 package com.pluralsight.data.mysql;
 
 import com.pluralsight.Transaction;
+import com.pluralsight.User;
 import com.pluralsight.data.TransactionDao;
 
 import java.sql.Connection;
@@ -21,13 +22,13 @@ public class MySqlTransactionDao implements TransactionDao {
     // "transaction_id"
     // "user_id"
 
-    // SELECT * from transactions WHERE user_id = 1;
-    // SELECT * from transactions WHERE user_id = 1 AND amount > 0;
-    // SELECT * from transactions WHERE user_id = 1 AND amount < 0;
 
 //    String transactionId = resultSet.getString("transaction_id");
 //    String userId = resultSet.getString("user_id");
 
+    // SELECT * from transactions WHERE user_id = 1;
+    // SELECT * from transactions WHERE user_id = 1 AND amount > 0;
+    // SELECT * from transactions WHERE user_id = 1 AND amount < 0;
 
 // ~~~~~~~~~~~~~~~~~ Authored by Tina and Zamir ~~~~~~~~~~~~~~~~~~~~~
     @Override
@@ -46,6 +47,7 @@ public class MySqlTransactionDao implements TransactionDao {
                     String description = resultSet.getString("description");
                     String vendor = resultSet.getString("vendor");
                     double amount = resultSet.getDouble("amount");
+
                     String[] splittingDateTime = dateTime.split(" ");
                     String date = splittingDateTime[0];
                     String time = splittingDateTime[1];
@@ -59,6 +61,53 @@ public class MySqlTransactionDao implements TransactionDao {
             System.out.println("ERROR");
         }
         return allTransactions;
+    }
+
+
+
+    //column names
+    // "date"
+    // "description"
+    // "vendor"
+    // "amount"
+    // "transaction_id"
+    // "user_id"
+
+
+    //    String transactionId = resultSet.getString("transaction_id");
+//    String userId = resultSet.getString("user_id");
+    // ~~~~~~~~~~~~~~~~~ Authored by Staphon ~~~~~~~~~~~~~~~~~~~~~
+    @Override
+    public Transaction createTransaction(Transaction transaction, int userId) {
+
+        String sql = "INSERT INTO transactions (user_id, date, description, vendor, amount) VALUES (?, ?, ?, ?, ?),";
+        Transaction createNewTransaction = null;
+        try (Connection connection = basicDataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            String date = transaction.getDate() + " " + transaction.getTime();
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, date);
+            preparedStatement.setString(3, transaction.getDescription());
+            preparedStatement.setString(4, transaction.getVendor());
+            preparedStatement.setDouble(5,transaction.getAmount());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                // we have to split the date and time.
+                String transactionDateAndTime = resultSet.getString();
+                String description = resultSet.getString();
+                String vendor = resultSet.getString();
+                double amount = resultSet.getDouble();
+                createNewTransaction = new Transaction();
+            }
+
+        } catch (SQLException e){
+            System.out.println("Error adding new transaction");
+        }
+
+        return createNewTransaction;
     }
 
     @Override
