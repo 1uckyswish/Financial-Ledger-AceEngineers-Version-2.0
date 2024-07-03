@@ -3,34 +3,69 @@ package com.pluralsight;
 import com.pluralsight.UtilityMethods.UtilityMethods;
 
 import java.io.*;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
+
+//sql
+import com.pluralsight.data.TransactionDao;
+import com.pluralsight.data.mysql.MySqlTransactionDao;
+import org.apache.commons.dbcp2.BasicDataSource;
+
+import javax.sql.DataSource;
 
 public class AccountingLedger {
     // Hold all Transactions read from CSV file and apply them to an Arraylist to
     // easily append and retrieve values
-    static ArrayList<Transaction> transactionHistory = new ArrayList<>();
-
+    static TransactionDao transactionDao = new MySqlTransactionDao();
+    public static BasicDataSource basicDataSource = DatabaseConnector.connect();
+    static List<Transaction> transactionHistory = new ArrayList<>();
     /**
      * Entry point of the Accounting Ledger application.
      *
      * @throws IOException If an I/O error occurs.
      */
+
+    // ~~~~~~~~~~~~~~~~~~ Authored by Zamir and Tina ~~~~~~~~~~~~~~~~~~
     public static void main(String[] args) throws IOException {
+
+//        String sql = "SELECT * FROM users";
+//
+//
+//        try{
+//            try (Connection connection = basicDataSource.getConnection();
+//                PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+//                // no need to set string
+//                ResultSet resultSet = preparedStatement.executeQuery();
+//
+//                while(resultSet.next()){
+//                    int userId = resultSet.getInt("user_id");
+//                    String username = resultSet.getString("username");
+//                    String password = resultSet.getString("password");
+//                    System.out.println(userId);
+//                    System.out.println(username);
+//                    System.out.println(password);
+//                }
+//            }
+//
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//            System.out.println("ERROR");
+//        }
+
+
+
         // Create a scanner object to handle user input throughout the application
         Scanner scanner = new Scanner(System.in);
         // Call the method that reads the CSV file and makes a class instance of each
         // one
         // After reading file it appends a new object of each transaction to the
         // ArrayList
-        readAndAddToTransactionHistory();
+        transactionHistory = transactionDao.getAllTransactions(2);
         // Call the method that starts the whole application. It continues running until
         // user says otherwise
         displayHomeScreen(scanner);
@@ -43,29 +78,33 @@ public class AccountingLedger {
      * @throws IOException If an I/O error occurs.
      */
     public static void readAndAddToTransactionHistory() throws IOException {
-        // Create a new reader to access the csv file
-        // Specify the path to the CSV file you want to re
-        BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
-        // Skip the first line as it contains the CSV headers
-        // ex=> date|time|description|vendor|amount
-        // We skip this line ^ by calling readLine() once
-        reader.readLine();
 
-        String line;
-        // This line of code assigns the value returned by reader.readLine() as a string
-        // this condition checks whether the value of line is not null, which means
-        // there are more lines to read from the input stream.
-        while ((line = reader.readLine()) != null) {
-            // Split the line by the pipe character (|)
-            String[] transactionsSplit = line.split(Pattern.quote("|"));
-            // Pass the values that are split as arguments to a method that creates a NEW
-            // INSTANCE OF A CLASS,
-            // Create a new Transaction object from the split values and add it to the
-            // transaction history ArrayList
-            transactionHistory.add(createTransactionFromCsv(transactionsSplit));
-        }
-        // Close the reader to release all resources associated with it
-        reader.close();
+
+//        // Create a new reader to access the csv file
+//        // Specify the path to the CSV file you want to re
+//        BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
+//        // Skip the first line as it contains the CSV headers
+//        // ex=> date|time|description|vendor|amount
+//        // We skip this line ^ by calling readLine() once
+//        reader.readLine();
+//
+//        String line;
+//        // This line of code assigns the value returned by reader.readLine() as a string
+//        // this condition checks whether the value of line is not null, which means
+//        // there are more lines to read from the input stream.
+//        while ((line = reader.readLine()) != null) {
+//            // Split the line by the pipe character (|)
+//            String[] transactionsSplit = line.split(Pattern.quote("|"));
+//            // Pass the values that are split as arguments to a method that creates a NEW
+//            // INSTANCE OF A CLASS,
+//            // Create a new Transaction object from the split values and add it to the
+//            // transaction history ArrayList
+//            transactionHistory.add(createTransactionFromCsv(transactionsSplit));
+//        }
+//        // Close the reader to release all resources associated with it
+//        reader.close();
+
+        transactionHistory = transactionDao.getAllTransactions(1);
     }
 
     /**

@@ -4,6 +4,8 @@ package com.pluralsight;
  * Represents a financial transaction with date, time, description, vendor, and amount.
  */
 public class Transaction {
+    private String transactionId;
+    private String userId;
     private String date;
     private String time;
     private String description;
@@ -19,6 +21,16 @@ public class Transaction {
      * @param amount      The amount of money involved in the transaction
      */
     public Transaction(String date, String time, String description, String vendor, double amount) {
+        this.date = date;
+        this.time = time;
+        this.description = description;
+        this.vendor = vendor;
+        this.amount = amount;
+    }
+
+    public Transaction(String transactionId, String userId, String date, String time, String description, String vendor, double amount) {
+        this.transactionId = transactionId;
+        this.userId = userId;
         this.date = date;
         this.time = time;
         this.description = description;
@@ -76,6 +88,10 @@ public class Transaction {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    // getters and setters from db
+
+
 
     @Override
     public String toString() {
