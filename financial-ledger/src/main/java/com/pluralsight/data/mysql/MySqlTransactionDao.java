@@ -79,9 +79,9 @@ public class MySqlTransactionDao implements TransactionDao {
     // ~~~~~~~~~~~~~~~~~ Authored by Staphon ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public Transaction createTransaction(Transaction transaction, int userId) {
-
-        String sql = "INSERT INTO transactions (user_id, date, description, vendor, amount) VALUES (?, ?, ?, ?, ?),";
+        String sql = "INSERT INTO transactions (user_id, date, description, vendor, amount) VALUES (?, ?, ?, ?, ?)";
         Transaction createNewTransaction = null;
+
         try (Connection connection = basicDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -91,20 +91,17 @@ public class MySqlTransactionDao implements TransactionDao {
             preparedStatement.setString(2, date);
             preparedStatement.setString(3, transaction.getDescription());
             preparedStatement.setString(4, transaction.getVendor());
-            preparedStatement.setDouble(5,transaction.getAmount());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.setDouble(5, transaction.getAmount());
 
-            while(resultSet.next()){
-                // we have to split the date and time.
-                String transactionDateAndTime = resultSet.getString();
-                String description = resultSet.getString();
-                String vendor = resultSet.getString();
-                double amount = resultSet.getDouble();
-                createNewTransaction = new Transaction();
+            // Use executeUpdate() for INSERT, UPDATE, DELETE statements
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                createNewTransaction = transaction; // Return the created transaction if insertion was successful
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error adding new transaction");
+            e.printStackTrace(); // Print the stack trace for debugging
         }
 
         return createNewTransaction;

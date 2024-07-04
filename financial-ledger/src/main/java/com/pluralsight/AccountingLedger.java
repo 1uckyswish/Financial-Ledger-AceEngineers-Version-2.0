@@ -53,32 +53,6 @@ public class AccountingLedger {
      * @throws IOException If an I/O error occurs.
      */
     public static void readAndAddToTransactionHistory() throws IOException {
-
-
-//        // Create a new reader to access the csv file
-//        // Specify the path to the CSV file you want to re
-//        BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
-//        // Skip the first line as it contains the CSV headers
-//        // ex=> date|time|description|vendor|amount
-//        // We skip this line ^ by calling readLine() once
-//        reader.readLine();
-//
-//        String line;
-//        // This line of code assigns the value returned by reader.readLine() as a string
-//        // this condition checks whether the value of line is not null, which means
-//        // there are more lines to read from the input stream.
-//        while ((line = reader.readLine()) != null) {
-//            // Split the line by the pipe character (|)
-//            String[] transactionsSplit = line.split(Pattern.quote("|"));
-//            // Pass the values that are split as arguments to a method that creates a NEW
-//            // INSTANCE OF A CLASS,
-//            // Create a new Transaction object from the split values and add it to the
-//            // transaction history ArrayList
-//            transactionHistory.add(createTransactionFromCsv(transactionsSplit));
-//        }
-//        // Close the reader to release all resources associated with it
-//        reader.close();
-
         transactionHistory = transactionDao.getAllTransactions(1);
     }
 
@@ -223,9 +197,9 @@ public class AccountingLedger {
         Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
         // Add the new transaction to the CSV file
         // Pass the value of the inputted data to have the method write to the CSV
-        addTransactionToCSV(date, time, description, vendor, amount);
+        transactionDao.createTransaction(newTransaction, 1);
         // Add the new transaction to the transactionHistory ArrayList immediately
-        transactionHistory.add(newTransaction);
+        readAndAddToTransactionHistory();
         System.out.println(newTransaction);
         // Provide feedback to the user
         System.out.println((isDeposit ? "Deposit" : "Payment") + " added successfully!");
