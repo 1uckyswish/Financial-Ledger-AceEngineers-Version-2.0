@@ -13,7 +13,9 @@ import java.util.regex.Pattern;
 
 //sql
 import com.pluralsight.data.TransactionDao;
+import com.pluralsight.data.UserDao;
 import com.pluralsight.data.mysql.MySqlTransactionDao;
+import com.pluralsight.data.mysql.MySqlUserDao;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
@@ -21,6 +23,8 @@ import javax.sql.DataSource;
 public class AccountingLedger {
     // Hold all Transactions read from CSV file and apply them to an Arraylist to
     // easily append and retrieve values
+    static User user = null;
+    static UserDao userDao = new MySqlUserDao();
     static TransactionDao transactionDao = new MySqlTransactionDao();
     public static BasicDataSource basicDataSource = DatabaseConnector.connect();
     static List<Transaction> transactionHistory = new ArrayList<>();
@@ -36,15 +40,79 @@ public class AccountingLedger {
 
         // Create a scanner object to handle user input throughout the application
         Scanner scanner = new Scanner(System.in);
-        // Call the method that reads the CSV file and makes a class instance of each
-        // one
-        // After reading file it appends a new object of each transaction to the
-        // ArrayList
-        readAndAddToTransactionHistory();
-        // Call the method that starts the whole application. It continues running until
-        // user says otherwise
-        displayHomeScreen(scanner);
+
+        loginOrRegister(scanner);
+
     }
+
+    //write method for login/register
+    public static void loginOrRegister(Scanner scanner) throws IOException {
+        // Welcome the user and display the options for them to choose from
+        System.out.println("------------------------------------------------------------");
+        System.out.println("\t\t Welcome to the Account Ledger Application");
+        System.out.println("\t\t - Would you like to login or register ? - \t");
+        System.out.println("------------------------------------------------------------\n");
+        System.out.println("Please select from the following options:");
+        System.out.println("(L) Login ");
+        System.out.println("(R) Register ");
+        System.out.println("(X) Exit - Exit the application");
+        // Prompt user for input
+        System.out.print("Enter your choice: ");
+        String choice = scanner.nextLine().toUpperCase();
+        // Handle user's choice by Letter
+        switch (choice) {
+            case "L":
+                // Call method to add deposit
+                handleUserData(true,scanner);
+                break;
+            case "R":
+                // Call method to make payment
+                handleUserData(false,scanner);
+                break;
+            case "X":
+                // Handle Exit option
+                System.out.println("Exiting the application...");
+                break;
+            default:
+                // If user types the wrong option not displayed. Use recursion.
+                System.out.println("\n----Invalid choice. Please enter a valid option.----\n");
+                loginOrRegister(scanner);
+        }
+        // Releases all resources associated with the reader.
+        scanner.close();
+    }
+
+    public static void handleUserData(boolean isLoggedIn, Scanner scanner) throws IOException {
+
+        if(isLoggedIn){
+            System.out.print("Please enter your username: ");
+            String username = scanner.nextLine();
+            System.out.print("Please enter your password: ");
+            String password = scanner.nextLine();
+            user = userDao.userLogin(username, password);
+            readAndAddToTransactionHistory();
+            // Call the method that starts the whole application. It continues running until
+            // user says otherwise
+            displayHomeScreen(scanner);
+            // error handle for login issue
+        }else {
+            System.out.println("Please enter your username: ");
+            String username = scanner.nextLine();
+            System.out.println("Please enter your password: ");
+            String password = scanner.nextLine();
+            user = userDao.userRegister(username, password);
+            if (user == null) {
+                System.out.println("User registration failed. Please try again.");
+                loginOrRegister(scanner);
+            } else {
+                System.out.println(user);
+                readAndAddToTransactionHistory();
+                displayHomeScreen(scanner);
+            }
+        }
+    }
+
+
 
     /**
      * Reads transaction data from the CSV file and adds transactions to the
@@ -53,7 +121,11 @@ public class AccountingLedger {
      * @throws IOException If an I/O error occurs.
      */
     public static void readAndAddToTransactionHistory() throws IOException {
-        transactionHistory = transactionDao.getAllTransactions(1);
+        if (user != null) {
+            transactionHistory = transactionDao.getAllTransactions(user.getUserId());
+        } else {
+            System.out.println("User is null. Cannot fetch transaction history.");
+        }
     }
 
     /**
@@ -197,7 +269,7 @@ public class AccountingLedger {
         Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
         // Add the new transaction to the CSV file
         // Pass the value of the inputted data to have the method write to the CSV
-        transactionDao.createTransaction(newTransaction, 1);
+        transactionDao.createTransaction(newTransaction, user.getUserId());
         // Add the new transaction to the transactionHistory ArrayList immediately
         readAndAddToTransactionHistory();
         System.out.println(newTransaction);
