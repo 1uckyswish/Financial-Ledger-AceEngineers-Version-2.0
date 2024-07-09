@@ -3,10 +3,7 @@ package com.pluralsight.data.mysql;
 import com.pluralsight.User;
 import com.pluralsight.data.UserDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 //sql
 import static com.pluralsight.AccountingLedger.basicDataSource;
@@ -45,27 +42,34 @@ public class MySqlUserDao implements UserDao {
     }
 
     // INSERT INTO users (username, password) VALUES ("Tina", "456");
+    // Authored by Tina
     @Override
     public User userRegister(String username, String password) {
         String sql = "INSERT INTO users (username, password) VALUES (?, ?);";
         User user = null;
         try (Connection connection = basicDataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            int rowsAffected = preparedStatement.executeUpdate();
 
-            while(resultSet.next()){
-                int userId = resultSet.getInt("user_id");
-                String userName = resultSet.getString("username");
-
-                user = new User(userId,username);
+            if (rowsAffected > 0) {
+                try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        int userId = resultSet.getInt(1);
+                        user = new User(userId, username);
+                    }
+                }
+            } else {
+                System.out.println("Failed to insert user: " + username);
             }
 
-        } catch (SQLException e){
-            System.out.println("Sorry Username Already Exists");
+        }catch (SQLException e) {
+            System.out.println("Error registering user: " + e.getMessage());
         }
         return user;
     }
+
+
 }
