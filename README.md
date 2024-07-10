@@ -75,5 +75,5 @@ Meet the dedicated team behind the Financial Transaction Tracker:
 - **[Noel](https://github.com/1uckyswish)**: GitHub repository owner and project lead.
 - **[Tina](https://github.com/twentyfive21)**: Implementing authentication and security features.
 - **[Zamir](https://github.com/ZPollar0)**: Contributing to database integration and backend development.
-- **[Staphon](https://github.com/staphon-github](https://github.com/StaphonP))**: Enhancing user interface and user experience design.
+- **[Staphon](https://github.com/StaphonP)**: Enhancing user interface and user experience design.
 
