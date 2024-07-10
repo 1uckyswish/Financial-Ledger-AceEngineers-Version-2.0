@@ -6,7 +6,7 @@ Welcome to the Financial Transaction Tracker repository! This project represents
 
 ### From Static to Dynamic
 
-![Dynamic](insert_image_url_here)
+![Screenshot 2024-07-10 at 2 04 00 PM](https://github.com/1uckyswish/Financial-Ledger-AceEngineers-Version-2.0/assets/107441301/9d98ff81-cb45-45d1-bb6b-8c33794a066e)
 
 Previously relying on static CSV files, we've migrated to a MySQL database backend. This transition allows for real-time data management, improving scalability, reliability, and performance. Now, all transactions are securely stored and managed within the MySQL database, ensuring data integrity and enabling advanced querying capabilities.
 
@@ -14,13 +14,14 @@ Previously relying on static CSV files, we've migrated to a MySQL database backe
 
 #### User Authentication and Registration
 
-![Authentication](insert_image_url_here)
+![Screenshot 2024-07-10 at 2 05 51 PM](https://github.com/1uckyswish/Financial-Ledger-AceEngineers-Version-2.0/assets/107441301/938612a5-bb72-4cc6-b7ea-013a615024e9)
+![Screenshot 2024-07-10 at 2 05 09 PM](https://github.com/1uckyswish/Financial-Ledger-AceEngineers-Version-2.0/assets/107441301/26376c8a-9519-4e15-b5e6-1d018b3cf369)
 
 We've introduced robust user authentication and registration features, enhancing security and personalization. Users can securely log in, access their personalized accounts, and manage transactions seamlessly.
 
 #### Real-time Updates and Error Handling
 
-![Real-time](insert_image_url_here)
+![Screenshot 2024-07-10 at 2 07 05 PM](https://github.com/1uckyswish/Financial-Ledger-AceEngineers-Version-2.0/assets/107441301/d45e11cc-a864-443f-9fc7-6d3adb37b7be)
 
 Integration with the MySQL database connector enables live updates, ensuring that transactions are processed and reflected instantaneously. We've also bolstered error handling mechanisms, particularly around user authentication, to provide a smooth and reliable user experience.
 
