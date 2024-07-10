@@ -112,7 +112,7 @@ public class AccountingLedger {
         if (user != null) {
             transactionHistory = transactionDao.getAllTransactions(user.getUserId());
         } else {
-            System.out.println("\nUnable to fetch transaction history. Please try to log in again.\n");
+            System.out.println("\nFailed to fetch transaction history. Please log in again.\n");
             loginOrRegister(scanner);
         }
     }
@@ -301,7 +301,10 @@ public class AccountingLedger {
      */
     public static void displayTransactions(String displayOption, Scanner scanner) throws IOException {
         // Display header for transactions based on the chosen option
-        System.out.println("\nTransactions (" + displayOption + "):");
+        if(transactionHistory.size() <=0 ){
+            System.out.println("\nTransactions (" + displayOption + "):");
+            System.out.println("\nApologies, there are currently no transactions to display.");
+        }
         // Iterate through transaction history and filter based on the displayOption
         // variable
         // Sort the transactionHistory list
@@ -313,18 +316,25 @@ public class AccountingLedger {
             switch (displayOption.toLowerCase()) {
                 case "all":
                     // Display all transactions
+                    System.out.println("\nTransactions (" + displayOption + "):");
                     System.out.println(transaction);
                     break;
                 case "deposits":
                     // Display only deposit transactions
+                    System.out.println("\nTransactions (" + displayOption + "):");
                     if (transaction.getAmount() > 0) {
                         System.out.println(transaction);
+                    }else{
+                        System.out.println("\nApologies, there are currently no transactions to display.");
                     }
                     break;
                 case "payments":
                     // Display only payment transactions (Negative)
+                    System.out.println("\nTransactions (" + displayOption + "):");
                     if (transaction.getAmount() < 0) {
                         System.out.println(transaction);
+                    }else{
+                        System.out.println("\nApologies, there are currently no transactions to display.");
                     }
                     break;
                 default:
@@ -474,6 +484,9 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfMonth, currentDate);
         System.out.println("------------------------------------------------------------");
+        if(transactionHistory.size() <=0 ){
+            System.out.println("\nApologies, there are currently no transactions to display.");
+        }
         // loop through the ArrayList
         for (Transaction transaction : transactionHistory) {
             // Parse transaction date from string to LocalDate object
@@ -512,6 +525,9 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfPreviousMonth, lastDayOfPreviousMonth);
         System.out.println("------------------------------------------------------------");
+        if(transactionHistory.size() <=0 ){
+            System.out.println("\nApologies, there are currently no transactions to display.");
+        }
         // Loop through the transaction history
         for (Transaction transaction : transactionHistory) {
             // Parse transaction date from string to LocalDate object
@@ -545,6 +561,9 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfYear, currentDate);
         System.out.println("------------------------------------------------------------");
+        if(transactionHistory.size() <=0 ){
+            System.out.println("\nApologies, there are currently no transactions to display.");
+        }
         // loop through the ArrayList
         for (Transaction transaction : transactionHistory) {
             // Parse transaction date from string to LocalDate object
@@ -582,6 +601,9 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfPreviousYear, lastDayOfPreviousYear);
         System.out.println("------------------------------------------------------------");
+        if(transactionHistory.size() <=0 ){
+            System.out.println("\nApologies, there are currently no transactions to display.");
+        }
         // Loop through the transaction history
         for (Transaction transaction : transactionHistory) {
             // Parse transaction date from string to LocalDate object
