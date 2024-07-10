@@ -1,14 +1,25 @@
 package com.pluralsight.models;
 
+/**
+ * User model
+ */
 public class User {
     private int userId;
     private String username;
 
+    /**
+     *  Constructor for User
+     * @param userId
+     * @param username
+     */
     public User(int userId, String username) {
         this.userId = userId;
         this.username = username;
     }
 
+    /**
+     * Getters and setters
+     */
     public int getUserId() {
         return userId;
     }
@@ -25,6 +36,10 @@ public class User {
         this.username = username;
     }
 
+    /**
+     * toString
+     * @return
+     */
     @Override
     public String toString() {
         return "userId=" + userId +

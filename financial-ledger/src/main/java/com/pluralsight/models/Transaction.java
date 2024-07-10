@@ -14,13 +14,13 @@ public class Transaction {
     private double amount;
 
     /**
-     * Constructs a transaction with the given details.
+     * Constructors for Transaction
      *
-     * @param date        The date of the transaction
-     * @param time        The time of the transaction
-     * @param description The description of the transaction
-     * @param vendor      The vendor involved in the transaction
-     * @param amount      The amount of money involved in the transaction
+     * @param date
+     * @param time
+     * @param description
+     * @param vendor
+     * @param amount
      */
     public Transaction(String date, String time, String description, String vendor, double amount) {
         this.date = date;

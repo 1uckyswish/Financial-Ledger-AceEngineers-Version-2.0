@@ -1,6 +1,6 @@
 package com.pluralsight;
 
-import com.pluralsight.UtilityMethods.UtilityMethods;
+import com.pluralsight.utility.UtilityMethods;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -9,7 +9,9 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-//sql
+/**
+ *  Mysql import statements
+ */
 import com.pluralsight.data.DatabaseConnector;
 import com.pluralsight.data.interfaces.TransactionDao;
 import com.pluralsight.data.interfaces.UserDao;
@@ -42,7 +44,11 @@ public class AccountingLedger {
         loginOrRegister(scanner);
     }
 
-    // write method for login/register
+    /**
+     * This method handles user login and registration options from the user with a UI.
+     * @param scanner
+     * @throws IOException
+     */
     public static void loginOrRegister(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
         System.out.println("------------------------------------------------------------");
@@ -79,6 +85,12 @@ public class AccountingLedger {
         scanner.close();
     }
 
+    /**
+     * This method handles user login and registration.
+     * @param isLoggedIn
+     * @param scanner
+     * @throws IOException
+     */
     public static void handleUserData(boolean isLoggedIn, Scanner scanner) throws IOException {
         System.out.print("Please enter your username: ");
         String username = scanner.nextLine();
@@ -112,7 +124,7 @@ public class AccountingLedger {
         if (user != null) {
             transactionHistory = transactionDao.getAllTransactions(user.getUserId());
         } else {
-            System.out.println("\nFailed to fetch transaction history. Please log in again.\n");
+            System.out.println("\nLogin credentials are incorrect. Please try again.\n");
             loginOrRegister(scanner);
         }
     }
