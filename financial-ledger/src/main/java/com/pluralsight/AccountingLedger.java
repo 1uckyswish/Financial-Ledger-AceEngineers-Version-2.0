@@ -51,14 +51,14 @@ public class AccountingLedger {
      */
     public static void loginOrRegister(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
-        System.out.println("------------------------------------------------------------");
-        System.out.println("\t\t Welcome to the Account Ledger Application");
-        System.out.println("\t\t - Would you like to login or register ? - \t");
+        System.out.println("\n------------------------------------------------------------");
+        System.out.println("\t\t 🌟💰Welcome to the Account Ledger Application💰🌟");
+        System.out.println("\t\t - Would you like to login or register 🤓? - \t");
         System.out.println("------------------------------------------------------------\n");
         System.out.println("Please select from the following options:");
-        System.out.println("(L) Login ");
-        System.out.println("(R) Register ");
-        System.out.println("(X) Exit - Exit the application");
+        System.out.println("(L) Login 🖥️");
+        System.out.println("(R) Register 📝");
+        System.out.println("(X) Exit the application 👋🏼");
         // Prompt user for input
         System.out.print("Enter your choice: ");
         String choice = scanner.nextLine().toUpperCase();
@@ -124,7 +124,7 @@ public class AccountingLedger {
         if (user != null) {
             transactionHistory = transactionDao.getAllTransactions(user.getUserId());
         } else {
-            System.out.println("\nLogin credentials are incorrect. Please try again.\n");
+            System.out.println("\n~~~~ Login credentials are incorrect. Please try again. ~~~~\n");
             loginOrRegister(scanner);
         }
     }
@@ -138,14 +138,14 @@ public class AccountingLedger {
      */
     public static void displayHomeScreen(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
-        System.out.println("\n------------------------------------------------------------");
-        System.out.printf("\t\t\t\t\t Welcome, %s!\n",
+        System.out.println("\n------------------------------------------------------------------");
+        System.out.printf("\t\t\t\t\t 💵💴 Welcome, %s! 💷💶\n",
                 user.getUsername().substring(0, 1).toUpperCase() + user.getUsername().substring(1));
-        System.out.println("------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------");
 
         System.out.println("Please select from the following options:");
         System.out.println("(D) Add Deposit - Add a deposit to the ledger");
-        System.out.println("(P) Make Payment (Debit) - Make a payment and deduct it from the ledger");
+        System.out.println("(P) Make Payment (Debit) - & deduct it from the ledger");
         System.out.println("(L) Ledger - Display the ledger");
         System.out.println("(B) Balance - View Ledger Balance");
         System.out.println("(X) Exit - Exit the application");
@@ -205,7 +205,7 @@ public class AccountingLedger {
         System.out.println("\t   - Please Fill out the following information - \t");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         // Ask the user if they want to use the current date
-        System.out.print("Do you want to use the current date? (Y/N): ");
+        System.out.print("Do you want to use the current date 📅? (Y/N): ");
         String choice = scanner.nextLine().toUpperCase();
         String date;
         // If a user chooses to use the current date, set it to the current date
@@ -217,7 +217,7 @@ public class AccountingLedger {
         }
 
         // Ask the user if they want to use the current time
-        System.out.print("Do you want to use the current time? (Y/N): ");
+        System.out.print("Do you want to use the current time ⏱️? (Y/N): ");
         choice = scanner.nextLine().toUpperCase();
         LocalTime currentTime = LocalTime.now();
         String time;
