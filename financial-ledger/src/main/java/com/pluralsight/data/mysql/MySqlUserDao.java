@@ -1,7 +1,7 @@
 package com.pluralsight.data.mysql;
 
-import com.pluralsight.User;
-import com.pluralsight.data.UserDao;
+import com.pluralsight.models.User;
+import com.pluralsight.data.interfaces.UserDao;
 
 import java.sql.*;
 

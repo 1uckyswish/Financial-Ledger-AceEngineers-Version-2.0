@@ -3,22 +3,21 @@ package com.pluralsight;
 import com.pluralsight.UtilityMethods.UtilityMethods;
 
 import java.io.*;
-import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Pattern;
 
 //sql
-import com.pluralsight.data.TransactionDao;
-import com.pluralsight.data.UserDao;
+import com.pluralsight.data.DatabaseConnector;
+import com.pluralsight.data.interfaces.TransactionDao;
+import com.pluralsight.data.interfaces.UserDao;
 import com.pluralsight.data.mysql.MySqlTransactionDao;
 import com.pluralsight.data.mysql.MySqlUserDao;
+import com.pluralsight.models.Transaction;
+import com.pluralsight.models.User;
 import org.apache.commons.dbcp2.BasicDataSource;
-
-import javax.sql.DataSource;
 
 public class AccountingLedger {
     // Hold all Transactions read from CSV file and apply them to an Arraylist to
@@ -113,7 +112,7 @@ public class AccountingLedger {
         if (user != null) {
             transactionHistory = transactionDao.getAllTransactions(user.getUserId());
         } else {
-            System.out.println("User is null. Cannot fetch transaction history.");
+            System.out.println("\nUnable to fetch transaction history. Please try to log in again.\n");
             loginOrRegister(scanner);
         }
     }

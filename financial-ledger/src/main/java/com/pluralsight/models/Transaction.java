@@ -1,4 +1,4 @@
-package com.pluralsight;
+package com.pluralsight.models;
 
 /**
  * Represents a financial transaction with date, time, description, vendor, and amount.

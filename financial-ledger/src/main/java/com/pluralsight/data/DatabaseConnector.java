@@ -1,7 +1,6 @@
-package com.pluralsight;
+package com.pluralsight.data;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import java.sql.Connection;
 
 public class DatabaseConnector {
 

@@ -1,6 +1,6 @@
-package com.pluralsight.data;
+package com.pluralsight.data.interfaces;
 
-import com.pluralsight.Transaction;
+import com.pluralsight.models.Transaction;
 
 import java.util.List;
 

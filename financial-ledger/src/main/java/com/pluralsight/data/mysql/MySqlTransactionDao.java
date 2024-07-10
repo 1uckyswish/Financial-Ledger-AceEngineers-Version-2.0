@@ -1,8 +1,7 @@
 package com.pluralsight.data.mysql;
 
-import com.pluralsight.Transaction;
-import com.pluralsight.User;
-import com.pluralsight.data.TransactionDao;
+import com.pluralsight.models.Transaction;
+import com.pluralsight.data.interfaces.TransactionDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
