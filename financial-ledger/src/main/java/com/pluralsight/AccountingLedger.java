@@ -27,6 +27,7 @@ public class AccountingLedger {
     static TransactionDao transactionDao = new MySqlTransactionDao();
     public static BasicDataSource basicDataSource = DatabaseConnector.connect();
     static List<Transaction> transactionHistory = new ArrayList<>();
+
     /**
      * Entry point of the Accounting Ledger application.
      *
@@ -41,7 +42,7 @@ public class AccountingLedger {
         loginOrRegister(scanner);
     }
 
-    //write method for login/register
+    // write method for login/register
     public static void loginOrRegister(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
         System.out.println("------------------------------------------------------------");
@@ -59,11 +60,11 @@ public class AccountingLedger {
         switch (choice) {
             case "L":
                 // Call method to add deposit
-                handleUserData(true,scanner);
+                handleUserData(true, scanner);
                 break;
             case "R":
                 // Call method to make payment
-                handleUserData(false,scanner);
+                handleUserData(false, scanner);
                 break;
             case "X":
                 // Handle Exit option
@@ -83,14 +84,14 @@ public class AccountingLedger {
         String username = scanner.nextLine();
         System.out.print("Please enter your password: ");
         String password = scanner.nextLine();
-        if(isLoggedIn){
+        if (isLoggedIn) {
             user = userDao.userLogin(username, password);
             readAndAddToTransactionHistory(scanner);
             // Call the method that starts the whole application. It continues running until
             // user says otherwise
             displayHomeScreen(scanner);
             // error handle for login issue
-        }else {
+        } else {
             user = userDao.userRegister(username, password);
             if (user == null) {
                 loginOrRegister(scanner);
@@ -100,7 +101,6 @@ public class AccountingLedger {
             }
         }
     }
-
 
     /**
      * Reads transaction data from the CSV file and adds transactions to the
@@ -117,7 +117,6 @@ public class AccountingLedger {
         }
     }
 
-
     /**
      * Displays the main menu of the Account Ledger application and handles user
      * interactions.
@@ -128,9 +127,9 @@ public class AccountingLedger {
     public static void displayHomeScreen(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
         System.out.println("\n------------------------------------------------------------");
-        System.out.printf("\t\t\t\t\t Welcome, %s!\n", user.getUsername().substring(0, 1).toUpperCase() + user.getUsername().substring(1));
+        System.out.printf("\t\t\t\t\t Welcome, %s!\n",
+                user.getUsername().substring(0, 1).toUpperCase() + user.getUsername().substring(1));
         System.out.println("------------------------------------------------------------");
-
 
         System.out.println("Please select from the following options:");
         System.out.println("(D) Add Deposit - Add a deposit to the ledger");
@@ -301,7 +300,7 @@ public class AccountingLedger {
      */
     public static void displayTransactions(String displayOption, Scanner scanner) throws IOException {
         // Display header for transactions based on the chosen option
-        if(transactionHistory.size() <=0 ){
+        if (transactionHistory.size() <= 0) {
             System.out.println("\nTransactions (" + displayOption + "):");
             System.out.println("\nApologies, there are currently no transactions to display.");
         }
@@ -324,7 +323,7 @@ public class AccountingLedger {
                     System.out.println("\nTransactions (" + displayOption + "):");
                     if (transaction.getAmount() > 0) {
                         System.out.println(transaction);
-                    }else{
+                    } else {
                         System.out.println("\nApologies, there are currently no transactions to display.");
                     }
                     break;
@@ -333,7 +332,7 @@ public class AccountingLedger {
                     System.out.println("\nTransactions (" + displayOption + "):");
                     if (transaction.getAmount() < 0) {
                         System.out.println(transaction);
-                    }else{
+                    } else {
                         System.out.println("\nApologies, there are currently no transactions to display.");
                     }
                     break;
@@ -403,7 +402,6 @@ public class AccountingLedger {
         // Navigate back to the home screen
         goToHomeScreen(scanner);
     }
-
 
     /**
      * Displays pre-defined reports or allows the user to run custom searches.
@@ -484,7 +482,7 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfMonth, currentDate);
         System.out.println("------------------------------------------------------------");
-        if(transactionHistory.size() <=0 ){
+        if (transactionHistory.size() <= 0) {
             System.out.println("\nApologies, there are currently no transactions to display.");
         }
         // loop through the ArrayList
@@ -525,7 +523,7 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfPreviousMonth, lastDayOfPreviousMonth);
         System.out.println("------------------------------------------------------------");
-        if(transactionHistory.size() <=0 ){
+        if (transactionHistory.size() <= 0) {
             System.out.println("\nApologies, there are currently no transactions to display.");
         }
         // Loop through the transaction history
@@ -561,7 +559,7 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfYear, currentDate);
         System.out.println("------------------------------------------------------------");
-        if(transactionHistory.size() <=0 ){
+        if (transactionHistory.size() <= 0) {
             System.out.println("\nApologies, there are currently no transactions to display.");
         }
         // loop through the ArrayList
@@ -601,7 +599,7 @@ public class AccountingLedger {
         System.out.println("------------------------------------------------------------");
         System.out.printf("\t\tReports from %s through %s%n", firstDayOfPreviousYear, lastDayOfPreviousYear);
         System.out.println("------------------------------------------------------------");
-        if(transactionHistory.size() <=0 ){
+        if (transactionHistory.size() <= 0) {
             System.out.println("\nApologies, there are currently no transactions to display.");
         }
         // Loop through the transaction history

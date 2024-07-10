@@ -1,7 +1,8 @@
 package com.pluralsight.models;
 
 /**
- * Represents a financial transaction with date, time, description, vendor, and amount.
+ * Represents a financial transaction with date, time, description, vendor, and
+ * amount.
  */
 public class Transaction {
     private String transactionId;
@@ -14,6 +15,7 @@ public class Transaction {
 
     /**
      * Constructs a transaction with the given details.
+     *
      * @param date        The date of the transaction
      * @param time        The time of the transaction
      * @param description The description of the transaction
@@ -29,7 +31,8 @@ public class Transaction {
     }
 
     // make a transaction
-    public Transaction(String transactionId, String userId, String date, String time, String description, String vendor, double amount) {
+    public Transaction(String transactionId, String userId, String date, String time, String description, String vendor,
+                       double amount) {
         this.transactionId = transactionId;
         this.userId = userId;
         this.date = date;
@@ -41,12 +44,14 @@ public class Transaction {
 
     /**
      * Getter methods
+     *
      * @return values from above
      *
      */
 
     /**
      * Setter methods
+     *
      * @void updates values from above
      *
      */
@@ -92,8 +97,6 @@ public class Transaction {
 
     // getters and setters from db
 
-
-
     @Override
     public String toString() {
         return String.format(
@@ -106,7 +109,5 @@ public class Transaction {
                         "+------------+--------------------------+",
                 date, time, description, vendor, amount);
     }
-
-
 
 }

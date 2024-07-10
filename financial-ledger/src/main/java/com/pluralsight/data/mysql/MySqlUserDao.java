@@ -10,7 +10,7 @@ import static com.pluralsight.AccountingLedger.basicDataSource;
 
 // ~~~~~~~~~~~~~~~~~ Authored by Staphon ~~~~~~~~~~~~~~~~~~~~~~~~~
 public class MySqlUserDao implements UserDao {
-    //column names
+    // column names
     // "user_id"
     // "username"
     // "password"
@@ -49,7 +49,6 @@ public class MySqlUserDao implements UserDao {
         return user;
     }
 
-
     // Authored by Tina
     @Override
     public User userRegister(String username, String password) {
@@ -59,7 +58,8 @@ public class MySqlUserDao implements UserDao {
 
         try (Connection connection = basicDataSource.getConnection();
              // Prepare the SQL statement and specify that we want to return generated keys
-             PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             // Set the username and password parameters in the prepared statement
             preparedStatement.setString(1, username);
@@ -85,12 +85,11 @@ public class MySqlUserDao implements UserDao {
 
         } catch (SQLException e) {
             // Handle any SQL exceptions that occur during the process
-            System.out.println("\nUser registration failed: Unable to register user due to a database error. \n\t\tPlease try again with a different username.");
+            System.out.println(
+                    "\nUser registration failed: Unable to register user due to a database error. \n\t\tPlease try again with a different username.");
         }
         // Return the created User object (or null if the registration failed)
         return user;
     }
-
-
 
 }

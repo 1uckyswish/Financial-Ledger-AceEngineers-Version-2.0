@@ -13,7 +13,7 @@ import java.util.List;
 import static com.pluralsight.AccountingLedger.basicDataSource;
 
 public class MySqlTransactionDao implements TransactionDao {
-    //column names
+    // column names
     // "date"
     // "description"
     // "vendor"
@@ -21,27 +21,26 @@ public class MySqlTransactionDao implements TransactionDao {
     // "transaction_id"
     // "user_id"
 
-
-//    String transactionId = resultSet.getString("transaction_id");
-//    String userId = resultSet.getString("user_id");
+    // String transactionId = resultSet.getString("transaction_id");
+    // String userId = resultSet.getString("user_id");
 
     // SELECT * from transactions WHERE user_id = 1;
     // SELECT * from transactions WHERE user_id = 1 AND amount > 0;
     // SELECT * from transactions WHERE user_id = 1 AND amount < 0;
 
-// ~~~~~~~~~~~~~~~~~ Authored by Tina and Zamir ~~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~ Authored by Tina and Zamir ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public List<Transaction> getAllTransactions(int userId) {
         ArrayList allTransactions = new ArrayList<>();
-        try{
+        try {
             String sql = "SELECT * from transactions WHERE user_id = ?";
             try (Connection connection = basicDataSource.getConnection();
-                 PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 // no need to set string
-                preparedStatement.setInt(1,userId);
+                preparedStatement.setInt(1, userId);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                while(resultSet.next()){
+                while (resultSet.next()) {
                     String dateTime = resultSet.getString("date");
                     String description = resultSet.getString("description");
                     String vendor = resultSet.getString("vendor");
@@ -55,16 +54,14 @@ public class MySqlTransactionDao implements TransactionDao {
                 }
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("ERROR");
         }
         return allTransactions;
     }
 
-
-
-    //column names
+    // column names
     // "date"
     // "description"
     // "vendor"
@@ -72,9 +69,8 @@ public class MySqlTransactionDao implements TransactionDao {
     // "transaction_id"
     // "user_id"
 
-
-    //    String transactionId = resultSet.getString("transaction_id");
-//    String userId = resultSet.getString("user_id");
+    // String transactionId = resultSet.getString("transaction_id");
+    // String userId = resultSet.getString("user_id");
     // ~~~~~~~~~~~~~~~~~ Authored by Staphon ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public Transaction createTransaction(Transaction transaction, int userId) {
@@ -109,15 +105,15 @@ public class MySqlTransactionDao implements TransactionDao {
     @Override
     public List<Transaction> getAllDeposits(int userId) {
         ArrayList allTransactions = new ArrayList<>();
-        try{
+        try {
             String sql = "SELECT * from transactions WHERE user_id = 1 AND amount > 0";
             try (Connection connection = basicDataSource.getConnection();
-                 PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 // no need to set string
-                preparedStatement.setInt(1,userId);
+                preparedStatement.setInt(1, userId);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                while(resultSet.next()){
+                while (resultSet.next()) {
                     String dateTime = resultSet.getString("date");
                     String description = resultSet.getString("description");
                     String vendor = resultSet.getString("vendor");
@@ -130,7 +126,7 @@ public class MySqlTransactionDao implements TransactionDao {
                 }
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("ERROR");
         }
@@ -140,15 +136,15 @@ public class MySqlTransactionDao implements TransactionDao {
     @Override
     public List<Transaction> getAllPayments(int userId) {
         ArrayList allTransactions = new ArrayList<>();
-        try{
+        try {
             String sql = "SELECT * from transactions WHERE user_id = 1 AND amount < 0";
             try (Connection connection = basicDataSource.getConnection();
-                 PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 // no need to set string
-                preparedStatement.setInt(1,userId);
+                preparedStatement.setInt(1, userId);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                while(resultSet.next()){
+                while (resultSet.next()) {
                     String dateTime = resultSet.getString("date");
                     String description = resultSet.getString("description");
                     String vendor = resultSet.getString("vendor");
@@ -161,7 +157,7 @@ public class MySqlTransactionDao implements TransactionDao {
                 }
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("ERROR");
         }
