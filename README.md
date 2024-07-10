@@ -1,7 +1,7 @@
 # Financial Transaction Tracker Capstone 1 Refactor
 
 Welcome to the Financial Transaction Tracker repository! This project represents a significant refactor of our initial Java capstone project, originally designed as a static application for managing financial transactions stored in CSV format. This project started as a solo assignment but ended up transforming it into a collaborative effort, introducing powerful enhancements to functionality and usability.
-
+### [View Part 1 Here](https://github.com/1uckyswish/financial-ledger)
 ## Project Evolution
 
 ### From Static to Dynamic
@@ -29,7 +29,7 @@ Integration with the MySQL database connector enables live updates, ensuring tha
 
 ### Interactive Home Screen
 
-![Home Screen](insert_image_url_here)
+![Screenshot 2024-07-10 at 2 18 22 PM](https://github.com/1uckyswish/Financial-Ledger-AceEngineers-Version-2.0/assets/107441301/46f33549-7c6d-4201-b730-8a0ee35b46a2)
 
 Upon launching the application, users are greeted with an intuitive home screen offering:
 
@@ -41,7 +41,7 @@ Upon launching the application, users are greeted with an intuitive home screen 
 
 ### User-Focused Enhancements
 
-![Login](insert_image_url_here)
+![Screenshot 2024-07-10 at 2 12 07 PM](https://github.com/1uckyswish/Financial-Ledger-AceEngineers-Version-2.0/assets/107441301/2b79f301-f56a-412a-9a99-af4437074df2)
 
 - **Secure Login**: Advanced authentication ensures data security and user privacy.
   
