@@ -37,12 +37,9 @@ public class AccountingLedger {
     // ~~~~~~~~~~~~~~~~~~ Authored by Zamir and Tina ~~~~~~~~~~~~~~~~~~
     public static void main(String[] args) throws IOException {
 
-
         // Create a scanner object to handle user input throughout the application
         Scanner scanner = new Scanner(System.in);
-
         loginOrRegister(scanner);
-
     }
 
     //write method for login/register
@@ -83,35 +80,27 @@ public class AccountingLedger {
     }
 
     public static void handleUserData(boolean isLoggedIn, Scanner scanner) throws IOException {
-
+        System.out.print("Please enter your username: ");
+        String username = scanner.nextLine();
+        System.out.print("Please enter your password: ");
+        String password = scanner.nextLine();
         if(isLoggedIn){
-            System.out.print("Please enter your username: ");
-            String username = scanner.nextLine();
-            System.out.print("Please enter your password: ");
-            String password = scanner.nextLine();
             user = userDao.userLogin(username, password);
-            readAndAddToTransactionHistory();
+            readAndAddToTransactionHistory(scanner);
             // Call the method that starts the whole application. It continues running until
             // user says otherwise
             displayHomeScreen(scanner);
             // error handle for login issue
         }else {
-            System.out.println("Please enter your username: ");
-            String username = scanner.nextLine();
-            System.out.println("Please enter your password: ");
-            String password = scanner.nextLine();
             user = userDao.userRegister(username, password);
             if (user == null) {
-                System.out.println("User registration failed. Please try again.");
                 loginOrRegister(scanner);
             } else {
-                System.out.println(user);
-                readAndAddToTransactionHistory();
+                readAndAddToTransactionHistory(scanner);
                 displayHomeScreen(scanner);
             }
         }
     }
-
 
 
     /**
@@ -120,37 +109,15 @@ public class AccountingLedger {
      *
      * @throws IOException If an I/O error occurs.
      */
-    public static void readAndAddToTransactionHistory() throws IOException {
+    public static void readAndAddToTransactionHistory(Scanner scanner) throws IOException {
         if (user != null) {
             transactionHistory = transactionDao.getAllTransactions(user.getUserId());
         } else {
             System.out.println("User is null. Cannot fetch transaction history.");
+            loginOrRegister(scanner);
         }
     }
 
-    /**
-     * Creates a Transaction object from an array of string values extracted from a
-     * CSV file.
-     *
-     * @param csvTransactions An array of string values representing transaction
-     *                        data.
-     * @return A new Transaction object created from the CSV data.
-     */
-    public static Transaction createTransactionFromCsv(String[] csvTransactions) {
-        // Split up values based by the index of the array into variables for better
-        // reading
-        String transactionDate = csvTransactions[0];
-        String transactionTime = csvTransactions[1];
-        String transactionDescription = csvTransactions[2];
-        String transactionVendor = csvTransactions[3];
-        // The final indexed array value returns as a string
-        // We have to convert it from the data type of String to Double
-        double transactionAmount = Double.parseDouble(csvTransactions[4]);
-        // Create a new Transaction object with the extracted data and return the new
-        // object
-        return new Transaction(transactionDate, transactionTime, transactionDescription, transactionVendor,
-                transactionAmount);
-    }
 
     /**
      * Displays the main menu of the Account Ledger application and handles user
@@ -161,10 +128,11 @@ public class AccountingLedger {
      */
     public static void displayHomeScreen(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
+        System.out.println("\n------------------------------------------------------------");
+        System.out.printf("\t\t\t\t\t Welcome, %s!\n", user.getUsername().substring(0, 1).toUpperCase() + user.getUsername().substring(1));
         System.out.println("------------------------------------------------------------");
-        System.out.println("\t\t Welcome to the Account Ledger Application");
-        System.out.println("\t\t - Your Ultimate Finance Tracker in Java! - \t");
-        System.out.println("------------------------------------------------------------\n");
+
+
         System.out.println("Please select from the following options:");
         System.out.println("(D) Add Deposit - Add a deposit to the ledger");
         System.out.println("(P) Make Payment (Debit) - Make a payment and deduct it from the ledger");
@@ -271,7 +239,7 @@ public class AccountingLedger {
         // Pass the value of the inputted data to have the method write to the CSV
         transactionDao.createTransaction(newTransaction, user.getUserId());
         // Add the new transaction to the transactionHistory ArrayList immediately
-        readAndAddToTransactionHistory();
+        readAndAddToTransactionHistory(scanner);
         System.out.println(newTransaction);
         // Provide feedback to the user
         System.out.println((isDeposit ? "Deposit" : "Payment") + " added successfully!");
@@ -427,37 +395,6 @@ public class AccountingLedger {
         goToHomeScreen(scanner);
     }
 
-    /**
-     * Adds a new transaction to the CSV file.
-     *
-     * @param date        The date of the transaction.
-     * @param time        The time of the transaction.
-     * @param description The description of the transaction.
-     * @param vendor      The vendor associated with the transaction.
-     * @param amount      The amount of the transaction.
-     * @throws IOException If an I/O error occurs.
-     */
-    public static void addTransactionToCSV(String date, String time, String description, String vendor, double amount)
-            throws IOException {
-        // Create a File object representing the CSV file you want to create
-        File file = new File("transactions.csv");
-        // Check if the file already exists
-        boolean fileExists = file.exists();
-        // Create a BufferedWriter to write to the file
-        // Set the second option to true to activate append mode
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-        // If the file doesn't exist, write the header
-        if (!fileExists) {
-            // Header line for the CSV file
-            writer.write("date|time|description|vendor|amount\n");
-        }
-        // Write transaction data to the file
-        // Format the transaction data and write it to the file
-        writer.write(String.format("%s|%s|%s|%s|%.2f%n", date, time, description, vendor, amount));
-        // Close the writer
-        writer.flush();
-        writer.close();
-    }
 
     /**
      * Displays pre-defined reports or allows the user to run custom searches.

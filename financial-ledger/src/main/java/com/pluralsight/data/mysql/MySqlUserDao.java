@@ -66,7 +66,7 @@ public class MySqlUserDao implements UserDao {
             }
 
         }catch (SQLException e) {
-            System.out.println("Error registering user: " + e.getMessage());
+            System.out.println("\nUser registration failed: Unable to register user due to a database error. \n\t\tPlease try again with a different username.");
         }
         return user;
     }
