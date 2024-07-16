@@ -1,35 +1,41 @@
+-- Drop the existing database if it exists to start fresh
 DROP DATABASE IF EXISTS aceBank;
 
+-- Create a new database named 'aceBank' if it does not already exist
 CREATE DATABASE IF NOT EXISTS aceBank;
 
+-- Use the newly created 'aceBank' database
 USE aceBank;
 
+-- Create a 'users' table with columns for user_id, username, and password
 CREATE TABLE users (
-    user_id INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(25) NOT NULL,
-    PRIMARY KEY (user_id)
+    user_id INT NOT NULL AUTO_INCREMENT, -- Unique user ID
+    username VARCHAR(50) NOT NULL UNIQUE, -- Username which must be unique
+    password VARCHAR(25) NOT NULL, -- User password
+    PRIMARY KEY (user_id) -- Set user_id as the primary key
 );
 
+-- Create a 'transactions' table with columns for transaction_id, user_id, date, description, vendor, and amount
 CREATE TABLE transactions (
-    transaction_id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    date DATETIME NOT NULL,
-    description VARCHAR(200) NOT NULL,
-    vendor VARCHAR(50) NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL DEFAULT 0,
-    PRIMARY KEY (transaction_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    transaction_id INT NOT NULL AUTO_INCREMENT, -- Unique transaction ID
+    user_id INT NOT NULL, -- ID of the user making the transaction
+    date DATETIME NOT NULL, -- Date and time of the transaction
+    description VARCHAR(200) NOT NULL, -- Description of the transaction
+    vendor VARCHAR(50) NOT NULL, -- Vendor involved in the transaction
+    amount DECIMAL(10, 2) NOT NULL DEFAULT 0, -- Amount of the transaction
+    PRIMARY KEY (transaction_id), -- Set transaction_id as the primary key
+    FOREIGN KEY (user_id) REFERENCES users(user_id) -- Foreign key referencing user_id in users table
 );
 
-
-INSERT INTO users (username, password) 
+-- Insert sample user data into the 'users' table
+INSERT INTO users (username, password)
 VALUES  ('Tina','123'),
         ('Zamir','123'),
         ('Staphon','123'),
-		('Noel','123'),
-		('Kellen','123');
-        
+        ('Noel','123'),
+        ('Kellen','123');
+
+-- Insert sample transaction data into the 'transactions' table
 INSERT INTO transactions (user_id, date, description, vendor, amount) 
 VALUES
 (1, '2023-08-07 08:30:00', 'Salary Payment', 'Apple Inc.', 3500.00),
@@ -119,6 +125,3 @@ VALUES
 (5, '2024-07-15 16:00:00', 'Utility Bill', 'City Water Department', -65.00);
 
 
-/* SELECT * FROM aceBank.transactions INNER JOIN aceBank.users
-ON aceBank.transactions.user_id = aceBank.users.user_id
-WHERE aceBank.transactions.user_id = 1; */

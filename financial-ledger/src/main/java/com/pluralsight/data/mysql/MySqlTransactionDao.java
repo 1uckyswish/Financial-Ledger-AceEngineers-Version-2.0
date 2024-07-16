@@ -21,13 +21,12 @@ public class MySqlTransactionDao implements TransactionDao {
     // "transaction_id"
     // "user_id"
 
-    // String transactionId = resultSet.getString("transaction_id");
-    // String userId = resultSet.getString("user_id");
 
-    // SELECT * from transactions WHERE user_id = 1;
-    // SELECT * from transactions WHERE user_id = 1 AND amount > 0;
-    // SELECT * from transactions WHERE user_id = 1 AND amount < 0;
-
+    /**
+     * Get all transactions
+     * @param userId
+     * @return
+     */
     // ~~~~~~~~~~~~~~~~~ Authored by Tina and Zamir ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public List<Transaction> getAllTransactions(int userId) {
@@ -69,8 +68,12 @@ public class MySqlTransactionDao implements TransactionDao {
     // "transaction_id"
     // "user_id"
 
-    // String transactionId = resultSet.getString("transaction_id");
-    // String userId = resultSet.getString("user_id");
+    /**
+     * Create new transaction
+     * @param transaction
+     * @param userId
+     * @return
+     */
     // ~~~~~~~~~~~~~~~~~ Authored by Staphon ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public Transaction createTransaction(Transaction transaction, int userId) {
@@ -102,6 +105,11 @@ public class MySqlTransactionDao implements TransactionDao {
         return createNewTransaction;
     }
 
+    /**
+     * Get all deposits
+     * @param userId
+     * @return
+     */
     @Override
     public List<Transaction> getAllDeposits(int userId) {
         ArrayList allTransactions = new ArrayList<>();
@@ -133,6 +141,11 @@ public class MySqlTransactionDao implements TransactionDao {
         return allTransactions;
     }
 
+    /**
+     * Get all payments
+     * @param userId
+     * @return
+     */
     @Override
     public List<Transaction> getAllPayments(int userId) {
         ArrayList allTransactions = new ArrayList<>();

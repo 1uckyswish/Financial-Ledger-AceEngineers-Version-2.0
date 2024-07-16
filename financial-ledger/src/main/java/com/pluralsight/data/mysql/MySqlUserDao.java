@@ -15,6 +15,12 @@ public class MySqlUserDao implements UserDao {
     // "username"
     // "password"
 
+    /**
+     * Login a user with the provided username and password.
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public User userLogin(String username, String password) {
         // SQL query to select a user with the provided username and password
@@ -49,6 +55,12 @@ public class MySqlUserDao implements UserDao {
         return user;
     }
 
+    /**
+     * Register a new user with the provided username and password.
+     * @param username
+     * @param password
+     * @return
+     */
     // Authored by Tina
     @Override
     public User userRegister(String username, String password) {
@@ -86,7 +98,7 @@ public class MySqlUserDao implements UserDao {
         } catch (SQLException e) {
             // Handle any SQL exceptions that occur during the process
             System.out.println(
-                    "\nUser registration failed: Unable to register user due to a database error. \n\t\tPlease try again with a different username.");
+                    "\nUser registration failed: Unable to register user due to a database error. \n\t\t\tPlease try again with a different username.");
         }
         // Return the created User object (or null if the registration failed)
         return user;
