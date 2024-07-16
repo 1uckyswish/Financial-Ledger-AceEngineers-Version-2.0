@@ -10,8 +10,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- *  Mysql import statements
- */
+ * Mysql import statements
+ **/
+
 import com.pluralsight.data.DatabaseConnector;
 import com.pluralsight.data.interfaces.TransactionDao;
 import com.pluralsight.data.interfaces.UserDao;
@@ -22,7 +23,7 @@ import com.pluralsight.models.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class AccountingLedger {
-    // Hold all Transactions read from CSV file and apply them to an Arraylist to
+    // Hold all Transactions read from MYSql DB and apply them to an Arraylist to
     // easily append and retrieve values
     static User user = null;
     static UserDao userDao = new MySqlUserDao();
@@ -52,7 +53,7 @@ public class AccountingLedger {
     public static void loginOrRegister(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
         System.out.println("\n------------------------------------------------------------");
-        System.out.println("\t\t 🌟💰Welcome to the Account Ledger Application💰🌟");
+        System.out.println("\t 🌟💰Welcome to the Account Ledger Application💰🌟");
         System.out.println("\t\t - Would you like to login or register 🤓? - \t");
         System.out.println("------------------------------------------------------------\n");
         System.out.println("Please select from the following options:");
@@ -75,14 +76,14 @@ public class AccountingLedger {
             case "X":
                 // Handle Exit option
                 System.out.println("Exiting the application...");
+                System.exit(0);
                 break;
             default:
                 // If user types the wrong option not displayed. Use recursion.
                 System.out.println("\n----Invalid choice. Please enter a valid option.----\n");
                 loginOrRegister(scanner);
         }
-        // Releases all resources associated with the reader.
-        scanner.close();
+
     }
 
     /**
@@ -115,7 +116,7 @@ public class AccountingLedger {
     }
 
     /**
-     * Reads transaction data from the CSV file and adds transactions to the
+     * Reads transaction data from the MYSql DB and adds transactions to the
      * transaction ArrayList.
      *
      * @throws IOException If an I/O error occurs.
@@ -138,10 +139,11 @@ public class AccountingLedger {
      */
     public static void displayHomeScreen(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
-        System.out.println("\n------------------------------------------------------------------");
-        System.out.printf("\t\t\t\t\t 💵💴 Welcome, %s! 💷💶\n",
+        System.out.println("\n==================================================================");
+        System.out.printf("\t\t\t\t\t💵💴🌟 Welcome, %s! 🌟💵💴\n",
                 user.getUsername().substring(0, 1).toUpperCase() + user.getUsername().substring(1));
-        System.out.println("------------------------------------------------------------------");
+        System.out.println("==================================================================\n");
+
 
         System.out.println("Please select from the following options:");
         System.out.println("(D) Add Deposit - Add a deposit to the ledger");
@@ -187,7 +189,7 @@ public class AccountingLedger {
                 displayHomeScreen(scanner);
         }
         // Releases all resources associated with the reader.
-        scanner.close();
+//        scanner.close();
     }
 
     /**
@@ -245,8 +247,8 @@ public class AccountingLedger {
         System.out.println("- Summary of " + (isDeposit ? "Deposit" : "Payment") + " -");
         // Create a new transaction
         Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
-        // Add the new transaction to the CSV file
-        // Pass the value of the inputted data to have the method write to the CSV
+        // Add the new transaction to the MYSql DB
+        // Pass the value of the inputted data to have the method write to the MYSql DB
         transactionDao.createTransaction(newTransaction, user.getUserId());
         // Add the new transaction to the transactionHistory ArrayList immediately
         readAndAddToTransactionHistory(scanner);
@@ -312,40 +314,37 @@ public class AccountingLedger {
      */
     public static void displayTransactions(String displayOption, Scanner scanner) throws IOException {
         // Display header for transactions based on the chosen option
-        if (transactionHistory.size() <= 0) {
-            System.out.println("\nTransactions (" + displayOption + "):");
+        System.out.println("\nTransactions (" + displayOption + "):");
+
+        if (transactionHistory.isEmpty()) {
             System.out.println("\nApologies, there are currently no transactions to display.");
+            return;
         }
-        // Iterate through transaction history and filter based on the displayOption
-        // variable
+
         // Sort the transactionHistory list
-        // Create a comparator based on transaction dates
-        // Reverse the sorting order (latest to earliest)
         Collections.sort(transactionHistory, Comparator.comparing(Transaction::getDate).reversed());
+
+        boolean hasTransactions = false;
 
         for (Transaction transaction : transactionHistory) {
             switch (displayOption.toLowerCase()) {
                 case "all":
                     // Display all transactions
-                    System.out.println("\nTransactions (" + displayOption + "):");
                     System.out.println(transaction);
+                    hasTransactions = true;
                     break;
                 case "deposits":
                     // Display only deposit transactions
-                    System.out.println("\nTransactions (" + displayOption + "):");
-                    if (transaction.getAmount() > 0) {
+                    if (transaction.getAmount() >= 0) {
                         System.out.println(transaction);
-                    } else {
-                        System.out.println("\nApologies, there are currently no transactions to display.");
+                        hasTransactions = true;
                     }
                     break;
                 case "payments":
                     // Display only payment transactions (Negative)
-                    System.out.println("\nTransactions (" + displayOption + "):");
                     if (transaction.getAmount() < 0) {
                         System.out.println(transaction);
-                    } else {
-                        System.out.println("\nApologies, there are currently no transactions to display.");
+                        hasTransactions = true;
                     }
                     break;
                 default:
@@ -353,6 +352,10 @@ public class AccountingLedger {
                     System.out.println("Invalid display option");
                     return;
             }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("\nApologies, there are currently no transactions to display.");
         }
 
         // Prompt the user for the next action
@@ -376,7 +379,6 @@ public class AccountingLedger {
             }
         }
     }
-
     /**
      * Calculates the total income and expenses from the transaction history
      * ArrayList.
