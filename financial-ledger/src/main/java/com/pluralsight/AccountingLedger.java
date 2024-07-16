@@ -25,30 +25,36 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class AccountingLedger {
     // Hold all Transactions read from MYSql DB and apply them to an Arraylist to
     // easily append and retrieve values
+    // Static variable to hold the current user
     static User user = null;
+    // Data Access Object (DAO) for user operations
     static UserDao userDao = new MySqlUserDao();
+    // DAO for transaction operations
     static TransactionDao transactionDao = new MySqlTransactionDao();
+    // Data source for database connections
     public static BasicDataSource basicDataSource = DatabaseConnector.connect();
+    // List to store the transaction history read from the MySQL database
     static List<Transaction> transactionHistory = new ArrayList<>();
+
 
     /**
      * Entry point of the Accounting Ledger application.
      *
      * @throws IOException If an I/O error occurs.
      */
-
     // ~~~~~~~~~~~~~~~~~~ Authored by Zamir and Tina ~~~~~~~~~~~~~~~~~~
     public static void main(String[] args) throws IOException {
-
-        // Create a scanner object to handle user input throughout the application
+        // Create a Scanner object to handle user input throughout the application
         Scanner scanner = new Scanner(System.in);
+
+        // Call the loginOrRegister method to prompt the user to log in or register
         loginOrRegister(scanner);
     }
 
     /**
      * This method handles user login and registration options from the user with a UI.
-     * @param scanner
-     * @throws IOException
+     * @param scanner Scanner object to read user input.
+     * @throws IOException  If an I/O error occurs during operation.
      */
     public static void loginOrRegister(Scanner scanner) throws IOException {
         // Welcome the user and display the options for them to choose from
@@ -66,11 +72,11 @@ public class AccountingLedger {
         // Handle user's choice by Letter
         switch (choice) {
             case "L":
-                // Call method to add deposit
+                // Call method to login
                 handleUserData(true, scanner);
                 break;
             case "R":
-                // Call method to make payment
+                // Call method to register
                 handleUserData(false, scanner);
                 break;
             case "X":
@@ -87,48 +93,68 @@ public class AccountingLedger {
     }
 
     /**
-     * This method handles user login and registration.
-     * @param isLoggedIn
-     * @param scanner
-     * @throws IOException
+     * Handles user login and registration process.
+     *
+     * @param isLoggedIn Boolean flag indicating if the user is logging in (true) or registering (false).
+     * @param scanner Scanner object to read user input.
+     * @throws IOException If an I/O error occurs during operation.
      */
     public static void handleUserData(boolean isLoggedIn, Scanner scanner) throws IOException {
+        // Prompt the user to enter their username
         System.out.print("Please enter your username: ");
         String username = scanner.nextLine();
+
+        // Prompt the user to enter their password
         System.out.print("Please enter your password: ");
         String password = scanner.nextLine();
+
+        // If the user is logging in
         if (isLoggedIn) {
+            // Attempt to log the user in using the provided username and password
             user = userDao.userLogin(username, password);
+
+            // Read and add transaction history to the list
             readAndAddToTransactionHistory(scanner);
-            // Call the method that starts the whole application. It continues running until
-            // user says otherwise
+
+            // Display the home screen of the application
             displayHomeScreen(scanner);
-            // error handle for login issue
         } else {
+            // If the user is registering
+            // Attempt to register the user with the provided username and password
             user = userDao.userRegister(username, password);
+
+            // If registration fails, prompt the user to login or register again
             if (user == null) {
                 loginOrRegister(scanner);
             } else {
+                // If registration is successful, read and add transaction history
                 readAndAddToTransactionHistory(scanner);
+
+                // Display the home screen of the application
                 displayHomeScreen(scanner);
             }
         }
     }
 
     /**
-     * Reads transaction data from the MYSql DB and adds transactions to the
-     * transaction ArrayList.
+     * Reads transaction data from the MySQL database and adds transactions to the
+     * transaction history ArrayList.
      *
+     * @param scanner Scanner object to handle user input in case of a login error.
      * @throws IOException If an I/O error occurs.
      */
     public static void readAndAddToTransactionHistory(Scanner scanner) throws IOException {
+        // Check if the user is logged in
         if (user != null) {
+            // Retrieve all transactions for the logged-in user and add them to the transaction history list
             transactionHistory = transactionDao.getAllTransactions(user.getUserId());
         } else {
-            System.out.println("\n~~~~ Login credentials are incorrect. Please try again. ~~~~\n");
+            // If user credentials are incorrect, inform the user and prompt them to log in or register again
+            System.out.println("\n~~~~ Login credentials are incorrect. Please try again 😁 ~~~~\n");
             loginOrRegister(scanner);
         }
     }
+
 
     /**
      * Displays the main menu of the Account Ledger application and handles user
@@ -143,7 +169,6 @@ public class AccountingLedger {
         System.out.printf("\t\t\t\t\t💵💴🌟 Welcome, %s! 🌟💵💴\n",
                 user.getUsername().substring(0, 1).toUpperCase() + user.getUsername().substring(1));
         System.out.println("==================================================================\n");
-
 
         System.out.println("Please select from the following options:");
         System.out.println("(D) Add Deposit - Add a deposit to the ledger");
