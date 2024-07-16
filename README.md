@@ -55,7 +55,7 @@ To start using the Financial Transaction Tracker, follow these steps:
    - Ensure Java and MySQL are installed on your system.
 
 2. **Clone the Repository**:
-   - `git clone https://github.com/your-username/financial-transaction-tracker.git`
+   - `git clone https://github.com/1uckyswish/Financial-Ledger-AceEngineers-Version-2.0.git`
    - `cd financial-transaction-tracker`
    
 3. **Import MySQL Script**:
@@ -70,7 +70,10 @@ To start using the Financial Transaction Tracker, follow these steps:
 
 ## Team Members
 
-- Noel (GitHub repo owner)
-- Zamir
-- Staphon
-- Tina
+Meet the dedicated team behind the Financial Transaction Tracker:
+
+- **[Noel](https://github.com/1uckyswish)**: GitHub repository owner and project lead.
+- **[Tina](https://github.com/twentyfive21)**: Implementing authentication and security features.
+- **[Zamir](https://github.com/ZPollar0)**: Contributing to database integration and backend development.
+- **[Staphon](https://github.com/StaphonP)**: Enhancing user interface and user experience design.
+
