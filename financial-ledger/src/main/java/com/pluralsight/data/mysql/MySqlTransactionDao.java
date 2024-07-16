@@ -12,8 +12,13 @@ import java.util.List;
 
 import static com.pluralsight.AccountingLedger.basicDataSource;
 
+/**
+ * Implementation of TransactionDao interface for MySQL database.
+ * Provides methods to retrieve, create, and categorize transactions.
+ */
 public class MySqlTransactionDao implements TransactionDao {
-    // column names
+
+    // Column names in the 'transactions' table
     // "date"
     // "description"
     // "vendor"
@@ -21,21 +26,20 @@ public class MySqlTransactionDao implements TransactionDao {
     // "transaction_id"
     // "user_id"
 
-
     /**
-     * Get all transactions
-     * @param userId
-     * @return
+     * Retrieves all transactions associated with a specific user from the database.
+     *
+     * @param userId The ID of the user whose transactions are to be retrieved.
+     * @return A list of Transaction objects representing all transactions for the user.
      */
     // ~~~~~~~~~~~~~~~~~ Authored by Tina and Zamir ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public List<Transaction> getAllTransactions(int userId) {
-        ArrayList allTransactions = new ArrayList<>();
+        ArrayList<Transaction> allTransactions = new ArrayList<>();
         try {
-            String sql = "SELECT * from transactions WHERE user_id = ?";
+            String sql = "SELECT * FROM transactions WHERE user_id = ?";
             try (Connection connection = basicDataSource.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                // no need to set string
                 preparedStatement.setInt(1, userId);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -45,9 +49,12 @@ public class MySqlTransactionDao implements TransactionDao {
                     String vendor = resultSet.getString("vendor");
                     double amount = resultSet.getDouble("amount");
 
+                    // Split date and time from dateTime string
                     String[] splittingDateTime = dateTime.split(" ");
                     String date = splittingDateTime[0];
                     String time = splittingDateTime[1];
+
+                    // Create a Transaction object and add it to the list
                     Transaction transaction = new Transaction(date, time, description, vendor, amount);
                     allTransactions.add(transaction);
                 }
@@ -55,69 +62,64 @@ public class MySqlTransactionDao implements TransactionDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("ERROR");
+            System.out.println("ERROR: Failed to retrieve transactions.");
         }
         return allTransactions;
     }
 
-    // column names
-    // "date"
-    // "description"
-    // "vendor"
-    // "amount"
-    // "transaction_id"
-    // "user_id"
-
     /**
-     * Create new transaction
-     * @param transaction
-     * @param userId
-     * @return
+     * Creates a new transaction record in the database for a specific user.
+     *
+     * @param transaction The Transaction object representing the new transaction.
+     * @param userId      The ID of the user creating the transaction.
+     * @return The Transaction object representing the newly created transaction if successful, null otherwise.
      */
     // ~~~~~~~~~~~~~~~~~ Authored by Staphon ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public Transaction createTransaction(Transaction transaction, int userId) {
         String sql = "INSERT INTO transactions (user_id, date, description, vendor, amount) VALUES (?, ?, ?, ?, ?)";
-        Transaction createNewTransaction = null;
+        Transaction createdTransaction = null;
 
         try (Connection connection = basicDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            String date = transaction.getDate() + " " + transaction.getTime();
+            // Combine date and time into a single string for storage
+            String dateTime = transaction.getDate() + " " + transaction.getTime();
 
+            // Set parameters for the SQL statement
             preparedStatement.setInt(1, userId);
-            preparedStatement.setString(2, date);
+            preparedStatement.setString(2, dateTime);
             preparedStatement.setString(3, transaction.getDescription());
             preparedStatement.setString(4, transaction.getVendor());
             preparedStatement.setDouble(5, transaction.getAmount());
 
-            // Use executeUpdate() for INSERT, UPDATE, DELETE statements
+            // Execute the SQL statement and check if any rows were affected
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                createNewTransaction = transaction; // Return the created transaction if insertion was successful
+                createdTransaction = transaction; // Return the created transaction if insertion was successful
             }
 
         } catch (SQLException e) {
-            System.out.println("Error adding new transaction");
+            System.out.println("Error adding new transaction.");
             e.printStackTrace(); // Print the stack trace for debugging
         }
 
-        return createNewTransaction;
+        return createdTransaction;
     }
 
     /**
-     * Get all deposits
-     * @param userId
-     * @return
+     * Retrieves all deposit transactions (transactions with positive amounts) for a specific user from the database.
+     *
+     * @param userId The ID of the user whose deposit transactions are to be retrieved.
+     * @return A list of Transaction objects representing all deposit transactions for the user.
      */
     @Override
     public List<Transaction> getAllDeposits(int userId) {
-        ArrayList allTransactions = new ArrayList<>();
+        ArrayList<Transaction> allDeposits = new ArrayList<>();
         try {
-            String sql = "SELECT * from transactions WHERE user_id = 1 AND amount > 0";
+            String sql = "SELECT * FROM transactions WHERE user_id = ? AND amount > 0";
             try (Connection connection = basicDataSource.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                // no need to set string
                 preparedStatement.setInt(1, userId);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -126,34 +128,38 @@ public class MySqlTransactionDao implements TransactionDao {
                     String description = resultSet.getString("description");
                     String vendor = resultSet.getString("vendor");
                     double amount = resultSet.getDouble("amount");
+
+                    // Split date and time from dateTime string
                     String[] splittingDateTime = dateTime.split(" ");
                     String date = splittingDateTime[0];
                     String time = splittingDateTime[1];
+
+                    // Create a Transaction object and add it to the list
                     Transaction transaction = new Transaction(date, time, description, vendor, amount);
-                    allTransactions.add(transaction);
+                    allDeposits.add(transaction);
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("ERROR");
+            System.out.println("ERROR: Failed to retrieve deposit transactions.");
         }
-        return allTransactions;
+        return allDeposits;
     }
 
     /**
-     * Get all payments
-     * @param userId
-     * @return
+     * Retrieves all payment transactions (transactions with negative amounts) for a specific user from the database.
+     *
+     * @param userId The ID of the user whose payment transactions are to be retrieved.
+     * @return A list of Transaction objects representing all payment transactions for the user.
      */
     @Override
     public List<Transaction> getAllPayments(int userId) {
-        ArrayList allTransactions = new ArrayList<>();
+        ArrayList<Transaction> allPayments = new ArrayList<>();
         try {
-            String sql = "SELECT * from transactions WHERE user_id = 1 AND amount < 0";
+            String sql = "SELECT * FROM transactions WHERE user_id = ? AND amount < 0";
             try (Connection connection = basicDataSource.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                // no need to set string
                 preparedStatement.setInt(1, userId);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -162,18 +168,22 @@ public class MySqlTransactionDao implements TransactionDao {
                     String description = resultSet.getString("description");
                     String vendor = resultSet.getString("vendor");
                     double amount = resultSet.getDouble("amount");
+
+                    // Split date and time from dateTime string
                     String[] splittingDateTime = dateTime.split(" ");
                     String date = splittingDateTime[0];
                     String time = splittingDateTime[1];
+
+                    // Create a Transaction object and add it to the list
                     Transaction transaction = new Transaction(date, time, description, vendor, amount);
-                    allTransactions.add(transaction);
+                    allPayments.add(transaction);
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("ERROR");
+            System.out.println("ERROR: Failed to retrieve payment transactions.");
         }
-        return allTransactions;
+        return allPayments;
     }
 }

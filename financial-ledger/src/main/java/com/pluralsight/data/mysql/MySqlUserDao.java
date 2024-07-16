@@ -5,21 +5,25 @@ import com.pluralsight.data.interfaces.UserDao;
 
 import java.sql.*;
 
-//sql
 import static com.pluralsight.AccountingLedger.basicDataSource;
 
+/**
+ * Implementation of UserDao interface for MySQL database operations related to users.
+ */
 // ~~~~~~~~~~~~~~~~~ Authored by Staphon ~~~~~~~~~~~~~~~~~~~~~~~~~
 public class MySqlUserDao implements UserDao {
-    // column names
+
+    // Column names in the 'users' table
     // "user_id"
     // "username"
     // "password"
 
     /**
-     * Login a user with the provided username and password.
-     * @param username
-     * @param password
-     * @return
+     * Authenticates a user by verifying the provided username and password.
+     *
+     * @param username The username of the user to authenticate.
+     * @param password The password of the user to authenticate.
+     * @return A User object if authentication succeeds; null otherwise.
      */
     @Override
     public User userLogin(String username, String password) {
@@ -34,6 +38,7 @@ public class MySqlUserDao implements UserDao {
             // Set the username and password parameters in the prepared statement
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
+
             // Execute the query and get the result set
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -49,17 +54,18 @@ public class MySqlUserDao implements UserDao {
 
         } catch (SQLException e) {
             // Handle any SQL exceptions that occur during the process
-            System.out.println("Error!");
+            System.out.println("\n *** Invalid Credentials *** \n -- Please try again 😄 --");
         }
         // Return the User object (or null if the login failed)
         return user;
     }
 
     /**
-     * Register a new user with the provided username and password.
-     * @param username
-     * @param password
-     * @return
+     * Registers a new user with the provided username and password.
+     *
+     * @param username The username of the new user to register.
+     * @param password The password of the new user to register.
+     * @return A User object representing the newly registered user if successful; null otherwise.
      */
     // Authored by Tina
     @Override
@@ -76,6 +82,7 @@ public class MySqlUserDao implements UserDao {
             // Set the username and password parameters in the prepared statement
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
+
             // Execute the update and get the number of rows affected
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -97,8 +104,7 @@ public class MySqlUserDao implements UserDao {
 
         } catch (SQLException e) {
             // Handle any SQL exceptions that occur during the process
-            System.out.println(
-                    "\nUser registration failed: Unable to register user due to a database error. \n\t\t\tPlease try again with a different username.");
+            System.out.println("\n *** Were sorry this current username is already taken. *** \n \t\t\t\t-- Please try another one --");
         }
         // Return the created User object (or null if the registration failed)
         return user;
