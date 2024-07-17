@@ -105,7 +105,7 @@ public class Transaction {
                         "| Time       | '%s'\n" +
                         "| Description| '%s'\n" +
                         "| Vendor     | '%s'\n" +
-                        "| Amount     | $%s\n" +
+                        "| Amount     | $%.2f\n" +
                         "+------------+--------------------------+",
                 date, time, description, vendor, amount);
     }
