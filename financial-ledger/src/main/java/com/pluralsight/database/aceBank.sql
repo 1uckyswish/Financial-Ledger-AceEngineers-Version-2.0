@@ -122,6 +122,12 @@ VALUES
 (5, '2024-07-01 12:00:00', 'Salary Deposit', 'Global Tech Partners', 2900.00),
 (5, '2024-07-05 13:40:10', 'Electronics Purchase', 'Apple Store', -450.00),
 (5, '2024-07-13 13:30:10', 'Pet Supplies', 'Petco', -80.00),
-(5, '2024-07-15 16:00:00', 'Utility Bill', 'City Water Department', -65.00);
+(5, '2024-07-15 16:00:00', 'Utility Bill', 'City Water Department', -65.00),
 
+-- for presentation purpose
 
+(5, '2024-07-17 13:30:10', 'Stay at Hotel', 'Marriott', -150.00),
+(5, '2024-07-17 19:00:00', 'Dining with family', 'Cheesecake Factory', -50.00),
+(5, '2024-07-17 09:00:00', 'Salary Income', 'Year Up', 2000.00),
+(5, '2024-07-17 11:00:00', 'Shopping Refund', 'Amazon', 75.00),
+(5, '2024-07-17 17:00:00', 'Found Money In Back Pocket', 'Home', 20.00);
