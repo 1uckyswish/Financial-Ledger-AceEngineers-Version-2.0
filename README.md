@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://www.pngall.com/wp-content/uploads/8/Coins-Piggy-Bank-PNG-Image.png" height="250">
+</p>
+
+
 # Financial Transaction Tracker Capstone 1 Refactor
 
 Welcome to the Financial Transaction Tracker repository! This project represents a significant refactor of our initial Java capstone project, originally designed as a static application for managing financial transactions stored in CSV format. This project started as a solo assignment but ended up transforming it into a collaborative effort, introducing powerful enhancements to functionality and usability.
