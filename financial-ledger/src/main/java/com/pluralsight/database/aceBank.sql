@@ -128,6 +128,6 @@ VALUES
 
 (5, '2024-07-17 13:30:10', 'Stay at Hotel', 'Marriott', -150.00),
 (5, '2024-07-17 19:00:00', 'Dining with family', 'Cheesecake Factory', -50.00),
-(5, '2024-07-17 09:00:00', 'Salary Income', 'Year Up', 2000.00),
-(5, '2024-07-17 11:00:00', 'Shopping Refund', 'Amazon', 75.00),
-(5, '2024-07-17 17:00:00', 'Found Money In Back Pocket', 'Home', 20.00);
+(5, '2024-07-18 09:00:00', 'Salary Income', 'Year Up', 2000.00),
+(5, '2024-07-18 11:00:00', 'Shopping Refund', 'Amazon', 75.00),
+(5, '2024-07-18 17:00:00', 'Found Money In Back Pocket', 'Home', 20.00);
