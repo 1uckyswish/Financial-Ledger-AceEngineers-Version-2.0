@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 public class RepoAutomation {
 
-    private static final String REPOS_DIR = "c:\\"; // Directory containing the repositories
-    private static final String GIT_PATH = ""; // Path to the Git executable
-    private static final String MAVEN_PATH = ""; // Path to the Maven executable
+    private static final String REPOS_DIR = "c:"; // Directory containing the repositories
+    private static final String GIT_PATH = "\"C:\\program files\\git\\bin\\git.exe\""; // Path to the Git executable
+    private static final String MAVEN_PATH = "\"C:\\program files\\apache-maven-3.92\\bin\\mvn.cmd\""; // Path to the Maven executable
     private static final List<String> failedRepos = new ArrayList<>(); // List to store names of repositories that failed to build
     private static final Scanner scanner = new Scanner(System.in); // Scanner for user input
 
@@ -33,6 +33,12 @@ public class RepoAutomation {
         for (File repo : repos) {
             System.out.println("Processing: " + repo.getName()); // Print the current repository being processed
             try {
+                // Check if the directory is a valid Git repository
+                if (!isGitRepository(repo)) {
+                    System.out.println(repo.getName() + " is not a valid Git repository.");
+                    continue; // Skip this repository
+                }
+
                 // Attempt to checkout and pull the specified branch
                 if (!checkoutAndPull(repo, branch)) {
                     System.out.println("Branch " + branch + " does not exist.");
@@ -74,6 +80,15 @@ public class RepoAutomation {
             failedRepos.forEach(System.out::println);
         } else {
             System.out.println("Build process aborted."); // Inform the user if the build process is aborted
+        }
+    }
+
+    // Method to check if a directory is a valid Git repository
+    private static boolean isGitRepository(File repo) {
+        try {
+            return executeCommand(new ProcessBuilder(GIT_PATH, "rev-parse", "--is-inside-work-tree"), repo);
+        } catch (Exception e) {
+            return false;
         }
     }
 
