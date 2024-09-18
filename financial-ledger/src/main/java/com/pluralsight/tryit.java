@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class GitPullAutomation {
 
-    private static final String REPOS_DIR = "c:\\cpsrepo"; // Directory containing repositories
+    private static final String REPOS_DIR = "c:\\geewiz"; // Directory containing repositories
     private static final String GIT_PATH = "\"C:\\program files\\git\\bin\\git.exe\""; // Path to Git executable
     private static final Scanner scanner = new Scanner(System.in); // Scanner for user input
 

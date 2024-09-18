@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MavenBuildAutomation {
 
-    private static final String REPOS_DIR = "c:\\cpsrepo"; // Directory containing repositories
+    private static final String REPOS_DIR = "c:\\jee_wiz"; // Directory containing repositories
     private static final String MAVEN_PATH = "\"C:\\program files\\apache-maven-3.92\\bin\\mvn.cmd\""; // Path to Maven executable
     private static final List<String> failedRepos = new ArrayList<>(); // List to store failed repositories
     private static final Scanner scanner = new Scanner(System.in); // Scanner for user input
