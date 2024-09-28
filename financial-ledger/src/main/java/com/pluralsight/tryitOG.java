@@ -55,8 +55,12 @@ public class GitMavenAutomation {
 
         String branchToUse = checkoutBranch(repo, branch);
         if (branchToUse != null) {
-            pullBranchIfNeeded(repo, branchToUse);
-            buildMavenProjectWithRetry(repo);
+            boolean changesPulled = pullBranchIfNeeded(repo, branchToUse);
+            if (changesPulled) {
+                buildMavenProjectWithRetry(repo); // Only build if changes were pulled
+            } else {
+                System.out.println("Skipping Maven build for " + repo.getName() + " as there are no changes.");
+            }
         }
     }
 
@@ -100,14 +104,16 @@ public class GitMavenAutomation {
         return false;
     }
 
-    // Pull branch only if changes are detected
-    private static void pullBranchIfNeeded(File repoDir, String branch) {
+    // Pull branch only if changes are detected, and return true if changes were pulled
+    private static boolean pullBranchIfNeeded(File repoDir, String branch) {
         if (hasRemoteChanges(repoDir, branch)) {
             System.out.println("Pulling latest changes for branch: " + branch);
             String[] pullCmd = {"git", "pull"};
             runCommand(pullCmd, repoDir);
+            return true; // Changes were pulled
         } else {
             System.out.println("Skipping pull, no changes detected.");
+            return false; // No changes, skip the build
         }
     }
 
