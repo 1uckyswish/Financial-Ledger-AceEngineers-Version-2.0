@@ -81,6 +81,3 @@ Meet the dedicated team behind the Financial Transaction Tracker:
 - **[Tina](https://github.com/twentyfive21)**: Implementing authentication and security features.
 - **[Zamir](https://github.com/ZPollar0)**: Contributing to database integration and backend development.
 - **[Staphon](https://github.com/StaphonP)**: Enhancing user interface and user experience design.
-
-[What went wellð (1).](..%2F..%2F..%2F..%2F..%2F..%2FDownloads%2FWhat%20went%20well%C3%B0%C2%9F%C2%98%C2%84%20%281%29.)
-[What went wellð.](..%2F..%2F..%2F..%2F..%2F..%2FDownloads%2FWhat%20went%20well%C3%B0%C2%9F%C2%98%C2%84.)
